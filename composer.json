@@ -1,0 +1,32 @@
+{
+    "name": "churakovmike/enot-io-client",
+    "type": "library",
+    "description": "PHP API client for enot.io",
+    "keywords": [
+        "enot.io",
+        "enot",
+        "enot php"
+    ],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Churakov Mike",
+            "email": "churakovmike@mail.ru",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "churakovmike@mail.ru"
+    },
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "ChurakovMike\\EnotIO\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
