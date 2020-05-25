@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace ChurakovMike\EnotIO;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
+
 /**
  * Class RequestApi.
  *
  * @property string $host
- * @property \object $http_client
+ * @property Client $http_client
  */
 class RequestApi
 {
@@ -21,7 +24,7 @@ class RequestApi
     private $host;
 
     /**
-     * @var null $http_client
+     * @var Client $http_client
      */
     private $http_client;
 
@@ -31,16 +34,23 @@ class RequestApi
      */
     public function __construct(string $host)
     {
-        $this->http_client = null;
+        $this->http_client = new Client([
+            'base_uri' => $host,
+            'timeout' => static::CONNECTION_TIMEOUT,
+        ]);
         $this->host = $host;
     }
 
     /**
      * @param array $params
+     * @param string $path
      * @param string $method
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function send(array $params = [], string $method)
+    public function send(array $params = [], string $path, string $method = 'get')
     {
-        //@todo.
+        $request = new Request($method, $path, $params);
+        $response = $this->http_client->send($request);
+        return $response;
     }
 }

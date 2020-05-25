@@ -21,7 +21,7 @@
     },
     "require": {
         "php": "^7.0",
-        "php-http/client-common": "^2.1@dev"
+        "guzzlehttp/guzzle": "6.5.x-dev"
     },
     "autoload": {
         "psr-4": {
