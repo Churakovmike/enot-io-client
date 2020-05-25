@@ -161,7 +161,7 @@ class Client
      * @param string $currency
      * @return string
      */
-    public function generatePaymentLink($sum, $orderId, $currency = 'RUB')
+    public function generatePaymentLink($sum, $orderId, $currency = 'RUB'): string 
     {
         $params = [
             'm' => $this->getMerchantId(),
