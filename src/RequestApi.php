@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ChurakovMike\EnotIO;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
 /**
  * Class RequestApi.
@@ -38,6 +37,7 @@ class RequestApi
             'base_uri' => $host,
             'timeout' => static::CONNECTION_TIMEOUT,
         ]);
+
         $this->host = $host;
     }
 
@@ -45,12 +45,15 @@ class RequestApi
      * @param array $params
      * @param string $path
      * @param string $method
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return mixed
      */
-    public function send(array $params = [], string $path, string $method = 'get')
+    public function send(array $params = [], string $path, string $method = 'get'): array
     {
-        $request = new Request($method, $path, $params);
-        $response = $this->http_client->send($request);
-        return $response;
+        $rowData = http_build_query($params);
+        $response = $this->http_client->request($method, $path, [
+            'query' => $rowData
+        ]);
+
+        return json_decode((string) $response->getBody());
     }
 }

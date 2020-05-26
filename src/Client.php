@@ -117,9 +117,9 @@ class Client
     }
 
     /**
-     * @return ResponseInterface
+     * @return array|mixed
      */
-    public function getAvailablePaymentServices(): ResponseInterface
+    public function getAvailablePaymentServices(): array 
     {
         return $this->request->send([
             'merchant_id' => $this->getMerchantId(),
@@ -128,9 +128,9 @@ class Client
     }
 
     /**
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return array|mixed
      */
-    public function getBalance(): ResponseInterface
+    public function getBalance(): array
     {
         return $this->request->send([
             'api_key' => $this->getApiKey(),
@@ -142,9 +142,9 @@ class Client
      * @param string $service
      * @param string $wallet
      * @param $amount
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return array|mixed
      */
-    public function withdraw(string $service, string $wallet, $amount): ResponseInterface
+    public function withdraw(string $service, string $wallet, $amount): array
     {
         return $this->request->send([
             'api_key' => $this->getApiKey(),
@@ -161,7 +161,7 @@ class Client
      * @param string $currency
      * @return string
      */
-    public function generatePaymentLink($sum, $orderId, $currency = 'RUB'): string 
+    public function generatePaymentLink($sum, $orderId, $currency = 'RUB'): string
     {
         $params = [
             'm' => $this->getMerchantId(),
