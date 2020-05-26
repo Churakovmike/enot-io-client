@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace ChurakovMike\EnotIO;
 
-use Psr\Http\Message\ResponseInterface;
-
 /**
  * Class Client.
  *
@@ -17,6 +15,19 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Client
 {
+    public CONST
+        CURRENCY_RUB = 'RUB',
+        CURRENCY_USD = 'USD',
+        CURRENCY_EUR = 'EUR',
+        CURRENCY_UAH = 'UAH';
+
+    public CONST AVAILABLE_CURRENCIES = [
+        self::CURRENCY_RUB,
+        self::CURRENCY_USD,
+        self::CURRENCY_EUR,
+        self::CURRENCY_UAH,
+    ];
+
     protected CONST API_HOST = 'https://enot.io';
 
     /**
@@ -110,16 +121,29 @@ class Client
 
     /**
      * Client constructor.
+     *
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(array $data = [])
     {
+        $this->loadConfig($data);
         $this->request = new RequestApi(self::API_HOST);
+    }
+
+    /**
+     * @param array $config
+     */
+    public function loadConfig(array $config)
+    {
+        foreach ($config as $property => $value) {
+            $this->$property = $value;
+        }
     }
 
     /**
      * @return array|mixed
      */
-    public function getAvailablePaymentServices(): array 
+    public function getAvailablePaymentServices(): array
     {
         return $this->request->send([
             'merchant_id' => $this->getMerchantId(),
@@ -159,21 +183,34 @@ class Client
      * @param $sum
      * @param $orderId
      * @param string $currency
+     * @param $callback
+     * @param $defaultPayment
+     * @param $redirectTo
+     * @param $successUrl
+     * @param $failUrl
      * @return string
      */
-    public function generatePaymentLink($sum, $orderId, $currency = 'RUB'): string
-    {
+    public function generatePaymentLink(
+        $sum,
+        $orderId,
+        string $currency = self::CURRENCY_RUB,
+        string $callback,
+        string $defaultPayment,
+        string $redirectTo = '',
+        string $successUrl = '',
+        string $failUrl = ''
+    ) {
         $params = [
             'm' => $this->getMerchantId(),
             'oa' => $sum,
             'o' => $orderId,
             's' => $this->generateSign($sum, $orderId),
             'cr' => $currency,
-            'cf' => 'callback string',
-            'p' => 'default payment',
-            'ap' => 'redirect string by default QIWI',
-            'success_url' => '',
-            'fail_url' => '',
+            'cf' => $callback,
+            'p' => $defaultPayment,
+            'ap' => $redirectTo,
+            'success_url' => $successUrl,
+            'fail_url' => $failUrl,
         ];
 
         return self::API_HOST . '/pay?' . http_build_query($params);
