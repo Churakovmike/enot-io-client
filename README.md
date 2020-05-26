@@ -75,4 +75,4 @@ $paymentServices = $client->getAvailablePaymentServices($service, $wallet, $amou
 ```
 
 #### Generate payment link
-[See methods signature]()
+[See methods signature](https://github.com/Churakovmike/enot-io-client/blob/master/src/Client.php#L193)
