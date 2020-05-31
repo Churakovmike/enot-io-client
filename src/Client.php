@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace ChurakovMike\EnotIO;
 
+use stdClass;
+
 /**
  * Class Client.
  *
@@ -141,9 +143,9 @@ class Client
     }
 
     /**
-     * @return array|mixed
+     * @return stdClass|mixed
      */
-    public function getAvailablePaymentServices(): array
+    public function getAvailablePaymentServices(): stdClass
     {
         return $this->request->send([
             'merchant_id' => $this->getMerchantId(),
@@ -152,9 +154,9 @@ class Client
     }
 
     /**
-     * @return array|mixed
+     * @return stdClass|mixed
      */
-    public function getBalance(): array
+    public function getBalance(): stdClass
     {
         return $this->request->send([
             'api_key' => $this->getApiKey(),
@@ -166,9 +168,9 @@ class Client
      * @param string $service
      * @param string $wallet
      * @param $amount
-     * @return array|mixed
+     * @return stdClass|mixed
      */
-    public function withdraw(string $service, string $wallet, $amount): array
+    public function withdraw(string $service, string $wallet, $amount): stdClass
     {
         return $this->request->send([
             'api_key' => $this->getApiKey(),

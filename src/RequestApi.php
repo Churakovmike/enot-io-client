@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ChurakovMike\EnotIO;
 
 use GuzzleHttp\Client;
+use stdClass;
 
 /**
  * Class RequestApi.
@@ -45,9 +46,9 @@ class RequestApi
      * @param array $params
      * @param string $path
      * @param string $method
-     * @return mixed
+     * @return stdClass
      */
-    public function send(array $params = [], string $path, string $method = 'get'): array
+    public function send(array $params = [], string $path, string $method = 'get'): stdClass
     {
         $rowData = http_build_query($params);
         $response = $this->http_client->request($method, $path, [
